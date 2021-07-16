@@ -1,0 +1,9 @@
+groups:
+- name: services.rules
+  rules:
+  - alert: service_down 
+    expr: win_services_state{service_name="MSExchangeImap4"}!=4
+    for: 30s
+    labels:
+      severity: service
+

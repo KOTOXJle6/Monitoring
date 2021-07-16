@@ -1,0 +1,26 @@
+groups:
+- name: storage_system.rules
+  rules:
+
+# alert for instance down
+  - alert: InstanceDown
+    expr: up{job="File Servers"} == 0
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has been down
+        for more than 1 minute.'
+      summary: Instance {{ $labels.instance }} down
+
+# alert for low free space
+  - alert: LowDiskSpace
+    expr: win_disk_Percent_Free_Space{exported_instance=~".*:.*",job="Exchange"} < 20
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has low
+        disk space.'
+      summary: Instance {{ $labels.instance }} low free space
+
