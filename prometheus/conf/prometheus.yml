@@ -13,8 +13,6 @@ alerting:
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
-#    - "/etc/prometheus/alerts/alert.rules.yml"    
-#    - "/etc/prometheus/alerts/services.alerts.yml"
     - "/etc/prometheus/alerts/mail.alerts.yml"
 
 
@@ -29,49 +27,28 @@ scrape_configs:
   static_configs:
   - targets: ['localhost:9090']
 
-- job_name: 'Exchange'
+- job_name: 'Mail System'
   scrape_interval: 6s
   scrape_timeout: 5s
-  static_configs:
-  - targets: 
-     - 10.100.255.223:9273      # exch19-01.mgt.local:9273
-     - 10.100.255.224:9273      # exch19-02.mgt.local:9273
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/mail_system.yml
+    refresh_interval: 1m
 
-- job_name: 'HAProxy-Exch'
-  scrape_interval: 6s
-  scrape_timeout: 5s
-  static_configs:
-  - targets: 
-     - 10.100.255.190:9100 # node_exporter
-     - 10.100.255.190:9323 # docker daemon
-     - 10.100.255.190:8080 # cAdvisor
-     - 10.100.255.190:9101 # haproxy_exporter
 
 - job_name: 'File Servers'
   scrape_interval: 60s
   scrape_timeout: 40s
-  static_configs:
-  - targets: 
-     - dpc-vss-file.hq.mosgortrans.com:9182    #### 10.199.4.6:9182
-     - dpc-cl-file-01.hq.mosgortrans.com:9182  #### 10.199.4.19:9182
-     - dpc-cl-file-02.hq.mosgortrans.com:9182  #### 10.199.4.20:9182
-     - dpc-obd-osago.hq.mosgortrans.com:9182   #### 10.199.5.89:9182
-     - dpc-srv-file-03.hq.mosgortrans.com:9182 #### 10.199.4.8:9182
-     - gup-consplus.hq.mosgortrans.com:9182    #### 10.100.255.137:9182
-     - hq-srv-file-02.hq.mosgortrans.com:9182  #### 10.199.4.7:9182
-     - hq-srv-file-05.hq.mosgortrans.com:9182  #### 10.199.4.10:9182
-     - mgt-fileshare.hq.mosgortrans.com:9182   #### 10.199.4.22:9182
-     - scan.hq.mosgortrans.com:9182            #### 10.199.4.9:9182
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/file_servers.yml
+    refresh_interval: 1m
 
-#- job_name: 'Print Servers'
-#  scrape_interval: 60s
-#  scrape_timeout: 40s
-#  static_configs:
-#  - targets:
-#     - dpc-print-01.hq.mosgortrans.com:9273   #### 10.199.5.7
-#     - dpc-rps-nop-01.hq.mosgortrans.com:9273 #### 10.199.5.11
-#     - dpc-rps-vst-01.hq.mosgortrans.com:9273 #### 10.199.5.10
-#     - dpc-rps-zel-01.hq.mosgortrans.com:9273 #### 10.199.5.9
-#     - dpc-rps-zpd-01.hq.mosgortrans.com:9273 #### 10.199.5.8
-#     - dpc-print-web.hq.mosgortrans.com:9273  #### 10.199.5.57
+- job_name: 'Print Servers'
+  scrape_interval: 60s
+  scrape_timeout: 40s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/print_servers.yml
+    refresh_interval: 1m
 

@@ -1,0 +1,8 @@
+- targets: 
+#     - dpc-print-01.hq.mosgortrans.com:9273   #### 10.199.5.7
+#     - dpc-rps-nop-01.hq.mosgortrans.com:9273 #### 10.199.5.11
+  - dpc-rps-vst-01.hq.mosgortrans.com:9273 #### 10.199.5.10
+#     - dpc-rps-zel-01.hq.mosgortrans.com:9273 #### 10.199.5.9
+#     - dpc-rps-zpd-01.hq.mosgortrans.com:9273 #### 10.199.5.8
+#     - dpc-print-web.hq.mosgortrans.com:9273  #### 10.199.5.57
+
