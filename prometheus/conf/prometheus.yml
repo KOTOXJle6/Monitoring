@@ -52,3 +52,28 @@ scrape_configs:
     - /etc/prometheus/service_discovery/print_servers.yml
     refresh_interval: 1m
 
+
+- job_name: 'blackbox-http_2xx'
+  scrape_interval: 30s
+  metrics_path: /probe
+  params:
+    module: [http_2xx-general] 
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/blackbox_exporter.yml
+#  static_configs:
+#    - targets:
+#      - https://cloud.mosgortrans.ru
+#      - https://kibana.mosgortrans.com
+#      - https://mail.mosgortrans.com
+#      - https://teampass.mosgortrans.ru
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: 10.100.255.219:9115
+    - source_labels:
+      - module
+      target_label: __param_module
