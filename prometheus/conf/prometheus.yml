@@ -14,7 +14,12 @@ alerting:
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
     - "/etc/prometheus/alerts/mail.alerts.yml"
-
+    - "/etc/prometheus/alerts/mail_haproxy.alerts.yml"
+    - "/etc/prometheus/alerts/printers.alerts.yml"
+    - "/etc/prometheus/alerts/file_servers.alerts.yml"
+    - "/etc/prometheus/alerts/cloud.alerts.yml"
+    - "/etc/prometheus/alerts/web_sites.alerts.yml"
+    - "/etc/prometheus/alerts/squid_proxy.alerts.yml"
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
@@ -26,6 +31,31 @@ scrape_configs:
   scrape_timeout: 5s
   static_configs:
   - targets: ['localhost:9090']
+
+- job_name: 'Nextcloud system'
+  scrape_interval: 6s
+  scrape_timeout: 5s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/cloud_system.yml
+    refresh_interval: 1m
+
+- job_name: 'Gitlab system'
+  scrape_interval: 6s
+  scrape_timeout: 5s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/gitlab_system.yml
+    refresh_interval: 1m
+
+- job_name: 'Squid proxy system'
+  scrape_interval: 6s
+  scrape_timeout: 5s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/squid_proxy_system.yml
+    refresh_interval: 1m
+
 
 - job_name: 'Mail System'
   scrape_interval: 6s
@@ -61,12 +91,6 @@ scrape_configs:
   file_sd_configs:
   - files:
     - /etc/prometheus/service_discovery/blackbox_exporter.yml
-#  static_configs:
-#    - targets:
-#      - https://cloud.mosgortrans.ru
-#      - https://kibana.mosgortrans.com
-#      - https://mail.mosgortrans.com
-#      - https://teampass.mosgortrans.ru
   relabel_configs:
     - source_labels: [__address__]
       target_label: __param_target

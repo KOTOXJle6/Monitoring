@@ -5,7 +5,7 @@ groups:
 # alert for instance down
   - alert: InstanceDown
     expr: up{job="File Servers"} == 0
-    for: 30s
+    for: 3m
     labels:
       severity: warning
     annotations:
@@ -16,12 +16,12 @@ groups:
 # alert for low free space
   - alert: LowDiskSpace
     expr: windows_logical_disk_free_bytes{job="File Servers",volume=~".*:.*",instance!~".*dpc-vss-file.*"} / windows_logical_disk_size_bytes{job="File Servers",volume=~".*:.*"} * 100 < 10
-    for: 30s
+    for: 5m
     labels:
       severity: warning
     annotations:
       description: '{{ $labels.instance }} of job {{ $labels.job }} has low
-        disk space.'
-      summary: Instance {{ $labels.instance }} low free space
+        disk space {{ $value }}%.'
+      summary: Instance {{ $labels.instance }} low free space {{ $value }}%
 
 

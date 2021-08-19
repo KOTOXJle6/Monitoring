@@ -1,0 +1,14 @@
+- targets:
+
+# Nextcloud servers
+- targets:
+  - 10.199.5.14:9100      # node_exporter
+  labels:
+    object: 'node_exporter'
+    cloud_servers: 'cloud'
+- targets:
+  - 10.199.5.14:8080      # cAdvisor
+  labels:
+    object: 'cadvisor'
+    cloud_servers: 'cloud'
+

@@ -1,0 +1,10 @@
+- targets: 
+
+# Prod squid servers
+- targets:
+  - 10.199.5.60:9100      # dpc-squid-01.hq.mosgortrans.com
+  - 10.199.5.62:9100      # dpc-squid-02.hq.mosgortrans.com
+  labels:
+    object: 'node_exporter'
+    squid_servers: 'prod_squid'
+

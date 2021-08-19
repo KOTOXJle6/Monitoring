@@ -1,0 +1,46 @@
+groups:
+- name: gitlab.rules
+  rules:
+
+# alert for container down for more than 
+  - alert: ContainerDown
+    expr: absent(container_cpu_usage_seconds_total{instance="10.199.5.123:8080",id=~".*docker.*"})
+    for: 30s
+    labels:
+      severity: warning
+
+
+# alert for instance down
+  - alert: InstanceDown
+    expr: up{job="Nextcloud server"} == 0
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has been down
+        for more than 1 minute.'
+      summary: Instance {{ $labels.instance }} down
+
+# alerts for low disk space
+  - alert: Low free disk space
+    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",job="Nextcloud server"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 20
+    for: 3m
+    labels:
+      severity: warning
+    annotations:
+      description: "{{ $labels.instance }} has a low free disk space (current value: {{ $value }})"
+
+
+# alerts for critical disk space
+  - alert: Critical free disk space
+    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",job="Nextcloud server"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 10
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      description: "{{ $labels.instance }} has a low free disk space (current value: {{ $value }})"
+
+
+
+
+
