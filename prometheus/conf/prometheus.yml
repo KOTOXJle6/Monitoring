@@ -101,3 +101,23 @@ scrape_configs:
     - source_labels:
       - module
       target_label: __param_module
+
+- job_name: 'check squid_proxy availability'
+  scrape_interval: 55s
+  metrics_path: /probe
+  params:
+    module: [squid_proxy]
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/blackbox_exporter_squid_proxy.yml
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: 10.100.255.219:9115
+    - source_labels:
+      - module
+      target_label: __param_module
+

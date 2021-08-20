@@ -1,0 +1,23 @@
+- targets: 
+
+#  ADFS servers
+- targets:
+  - 10.199.0.25:9273      # exch01.hq.mosgortrans.com:9273
+  - 10.199.0.27:9273      # exch03.hq.mosgortrans.com:9273
+  labels:
+    adfs_servers: 'adfs_windows'
+
+
+
+# NGINX servers
+- targets:
+  - 10.100.255.190:9100      # node_exporter
+  labels: 
+    object: 'node_exporter'
+    exch_servers: 'haproxy-exchange'
+- targets:
+  - 10.100.255.190:8080      # cAdvisor
+  labels: 
+    object: 'cadvisor'
+    exch_servers: 'haproxy-exchange'
+

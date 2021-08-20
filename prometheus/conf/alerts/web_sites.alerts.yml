@@ -21,7 +21,7 @@ groups:
       description: "Site {{ $labels.instance }} response for {{ humanize $value}}s"
 
   - alert: http_status_code_not_200-299
-    expr: probe_http_status_code <= 199 OR probe_http_status_code >= 300
+    expr: probe_http_status_code{instance!=".*10.199.5.6.*"} <= 199 OR probe_http_status_code >= 300
     for: 3m
     labels:
       severity: critical
