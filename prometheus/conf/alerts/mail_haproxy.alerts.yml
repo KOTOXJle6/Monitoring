@@ -4,7 +4,7 @@ groups:
 
 # alert for container down for more than 
   - alert: ContainerDown
-    expr: absent(container_cpu_usage_seconds_total{image="haproxy",instance="10.100.255.190:8080",job="Mail System",name="haproxy"})
+    expr: absent(container_cpu_usage_seconds_total{image="haproxy",instance="10.77.110.190:8080",job="Mail System",name="haproxy"})
     for: 30s
     labels:
       severity: warning
@@ -43,7 +43,7 @@ groups:
 
 # alert for web access down
   - alert: Web access down
-    expr: probe_success{instance="http://10.100.255.190:9000/stats"} != 1
+    expr: probe_success{instance="http://10.77.110.190:9000/stats"} != 1
     for: 30s
     labels:
       severity: warning
@@ -52,7 +52,7 @@ groups:
 
 # alert for web access response code
   - alert: bad web responce code
-    expr: probe_http_status_code{instance="http://10.100.255.190:9000/stats"} != 200
+    expr: probe_http_status_code{instance="http://10.77.110.190:9000/stats"} != 200
     for: 30s
     labels:
       severity: warning

@@ -11,4 +11,4 @@
   - scan.hq.mosgortrans.com:9182             #### 10.199.4.9:9182
   - sit-srv-file-01.hq.mosgortrans.com:9182  #### 10.0.215.117:9182
   - dpc-srv-file-1c.hq.mosgortrans.com:9182  #### 10.199.4.24:9182
-
+  - mgt-srv-taxcom.hq.mosgortrans.com:9182   #### 10.199.9.15

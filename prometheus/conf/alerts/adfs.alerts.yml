@@ -1,10 +1,10 @@
 groups:
-- name: mail_system.rules
+- name: adfs_system.rules
   rules:
 
 # alert for services down for more than 
   - alert: ServiceDown
-    expr: win_services_state{exch_servers=~".*exchange"} != 4
+    expr: win_services_state{job="ADFS Servers"} != 4
     for: 30s
     labels:
       severity: warning
@@ -12,7 +12,7 @@ groups:
 
 # alert for instance down
   - alert: InstanceDown
-    expr: up{job=~"Mail System"} == 0
+    expr: up{job="ADFS Servers"} == 0
     for: 30s
     labels:
       severity: critical
@@ -23,7 +23,7 @@ groups:
 
 # alert for low free space
   - alert: LowDiskSpace
-    expr: win_disk_Percent_Free_Space{exported_instance=~".*:.*",job="Mail System"} < 20
+    expr: win_disk_Percent_Free_Space{exported_instance=~".*:.*",job="ADFS Servers"} < 20
     for: 5m
     labels:
       severity: warning
@@ -34,7 +34,7 @@ groups:
 
 # alert for extra low free space
   - alert: NOFREE_DiskSpace
-    expr: win_disk_Percent_Free_Space{exported_instance=~".*:.*",job="Mail System"} < 10
+    expr: win_disk_Percent_Free_Space{exported_instance=~".*:.*",job="ADFS Servers"} < 10
     for: 5m
     labels:
       severity: critical
@@ -44,19 +44,6 @@ groups:
       summary: Instance {{ $labels.instance }} no free space {{ $value }}%
 
 
-# alert for high mail queue
-  - alert: HighMailQueue
-    expr: execMailQueue > 200
-    for: 30s
-    labels:
-      severity: warning
-
-# alert for extra high mail queue
-  - alert: EXTRA_HIGH_MAIL_QUEUE
-    expr: execMailQueue > 300
-    for: 30s
-    labels:
-      severity: critical
 
 
 

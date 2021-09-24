@@ -9,7 +9,7 @@ alerting:
   alertmanagers:
   - static_configs:
     - targets:
-       - 10.100.255.219:9093
+       - 10.77.110.219:9093
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
@@ -20,6 +20,9 @@ rule_files:
     - "/etc/prometheus/alerts/cloud.alerts.yml"
     - "/etc/prometheus/alerts/web_sites.alerts.yml"
     - "/etc/prometheus/alerts/squid_proxy.alerts.yml"
+    - "/etc/prometheus/alerts/adfs_nginx.alerts.yml"
+    - "/etc/prometheus/alerts/adfs.alerts.yml"
+#    - "/etc/prometheus/alerts/1c.alerts.yml"
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
@@ -83,6 +86,24 @@ scrape_configs:
     refresh_interval: 1m
 
 
+- job_name: 'ADFS Servers'
+  scrape_interval: 60s
+  scrape_timeout: 40s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/adfs_system.yml
+    refresh_interval: 1m
+
+- job_name: '1C Servers'
+  scrape_interval: 60s
+  scrape_timeout: 40s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/1c_servers.yml
+    refresh_interval: 1m
+
+
+
 - job_name: 'blackbox-http_2xx'
   scrape_interval: 30s
   metrics_path: /probe
@@ -97,7 +118,7 @@ scrape_configs:
     - source_labels: [__param_target]
       target_label: instance
     - target_label: __address__
-      replacement: 10.100.255.219:9115
+      replacement: 10.77.110.219:9115
     - source_labels:
       - module
       target_label: __param_module
@@ -116,7 +137,7 @@ scrape_configs:
     - source_labels: [__param_target]
       target_label: instance
     - target_label: __address__
-      replacement: 10.100.255.219:9115
+      replacement: 10.77.110.219:9115
     - source_labels:
       - module
       target_label: __param_module
