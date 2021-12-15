@@ -4,7 +4,7 @@ groups:
 
 # alert for container down for more than 
   - alert: ContainerDown
-    expr: absent(container_cpu_usage_seconds_total{image="nginx:1.19",instance="10.199.0.37:8080",job="ADFS Servers",name="nginx"})
+    expr: absent(container_cpu_usage_seconds_total{image="nginx:1.19",instance=~"10.199.0.3.*:8080",job="ADFS Servers",name="nginx"})
     for: 30s
     labels:
       severity: warning

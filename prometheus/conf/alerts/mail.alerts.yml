@@ -13,7 +13,7 @@ groups:
 # alert for instance down
   - alert: InstanceDown
     expr: up{job=~"Mail System"} == 0
-    for: 30s
+    for: 1m
     labels:
       severity: critical
     annotations:
@@ -47,14 +47,14 @@ groups:
 # alert for high mail queue
   - alert: HighMailQueue
     expr: execMailQueue > 200
-    for: 30s
+    for: 1m
     labels:
       severity: warning
 
 # alert for extra high mail queue
   - alert: EXTRA_HIGH_MAIL_QUEUE
     expr: execMailQueue > 300
-    for: 30s
+    for: 2m
     labels:
       severity: critical
 

@@ -1,0 +1,44 @@
+groups:
+- name: scada.rules
+  rules:
+
+# alert for instance down
+  - alert: InstanceDown
+    expr: up{job="SCADA Servers"} == 0
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has been down
+        for more than 10 minute.'
+      summary: Instance {{ $labels.instance }} down
+
+# alert for services down for more than 
+  - alert: ServiceDown
+    expr: win_services_state{service_name=~".*Scada.*"} != 4
+    for: 1m 
+    labels:
+      severity: warning
+
+
+# alert for low free space
+  - alert: LowDiskSpace
+    expr: win_disk_Percent_Free_Space{exported_instance=~".*:.*",job="SCADA Servers"} < 20
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has low
+        disk space {{ $value }}%.'
+      summary: Instance {{ $labels.instance }} low free space {{ $value }}%
+
+# alert for crit low free space
+  - alert: CriticalDiskSpace
+    expr: win_disk_Percent_Free_Space{exported_instance=~".*:.*",job="SCADA Servers"} < 10
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has low
+        disk space {{ $value }}%.'
+      summary: Instance {{ $labels.instance }} low free space {{ $value }}%

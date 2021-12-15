@@ -4,7 +4,7 @@ groups:
 
 # alert for container down for more than 
   - alert: ContainerDown
-    expr: absent(container_cpu_usage_seconds_total{instance="10.199.5.14:8080",id=~".*docker.*"})
+    expr: absent(container_cpu_usage_seconds_total{job="Nextcloud system",id=~".*docker.*"})
     for: 30s
     labels:
       severity: warning

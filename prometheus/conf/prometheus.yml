@@ -22,7 +22,8 @@ rule_files:
     - "/etc/prometheus/alerts/squid_proxy.alerts.yml"
     - "/etc/prometheus/alerts/adfs_nginx.alerts.yml"
     - "/etc/prometheus/alerts/adfs.alerts.yml"
-#    - "/etc/prometheus/alerts/1c.alerts.yml"
+    - "/etc/prometheus/alerts/1c.alerts.yml"
+    - "/etc/prometheus/alerts/scada.alerts.yml"
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
@@ -102,6 +103,13 @@ scrape_configs:
     - /etc/prometheus/service_discovery/1c_servers.yml
     refresh_interval: 1m
 
+- job_name: 'SCADA Servers'
+  scrape_interval: 60s
+  scrape_timeout: 40s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/scada_servers.yml
+    refresh_interval: 10m
 
 
 - job_name: 'blackbox-http_2xx'

@@ -1,6 +1,92 @@
 - targets:
 
-# Nextcloud servers
+# Nextcloud nginx servers
+#dpc-nc-nginx-01
+- targets:
+  - 10.199.5.138:9100      # node_exporter
+  labels:
+    object: 'node_exporter'
+    cloud_servers: 'cloud'
+- targets:
+  - 10.199.5.138:8080      # cAdvisor
+  labels:
+    object: 'cadvisor'
+    cloud_servers: 'cloud'
+#dpc-nc-nginx-02
+- targets:
+  - 10.199.5.139:9100      # node_exporter
+  labels:
+    object: 'node_exporter'
+    cloud_servers: 'cloud'
+- targets:
+  - 10.199.5.139:8080      # cAdvisor
+  labels:
+    object: 'cadvisor'
+    cloud_servers: 'cloud'
+
+
+# Nextcloud maridb servers
+#dpc-nc-mariadb-01
+- targets:
+  - 10.199.5.141:9100      # node_exporter
+  labels:
+    object: 'node_exporter'
+    cloud_servers: 'cloud'
+- targets:
+  - 10.199.5.141:8080      # cAdvisor
+  labels:
+    object: 'cadvisor'
+    cloud_servers: 'cloud'
+#dpc-nc-mariadb-02
+- targets:
+  - 10.199.5.142:9100      # node_exporter
+  labels:
+    object: 'node_exporter'
+    cloud_servers: 'cloud'
+- targets:
+  - 10.199.5.142:8080      # cAdvisor
+  labels:
+    object: 'cadvisor'
+    cloud_servers: 'cloud'
+#dpc-nc-mariadb-03
+- targets:
+  - 10.199.5.143:9100      # node_exporter
+  labels:
+    object: 'node_exporter'
+    cloud_servers: 'cloud'
+- targets:
+  - 10.199.5.143:8080      # cAdvisor
+  labels:
+    object: 'cadvisor'
+    cloud_servers: 'cloud'
+
+# Nextcloud ProxySQL servers
+# dpc-nc-proxysql-01
+- targets:
+  - 10.199.5.147:9100      # node_exporter
+  labels:
+    object: 'node_exporter'
+    cloud_servers: 'cloud'
+- targets:
+  - 10.199.5.147:8080      # cAdvisor
+  labels:
+    object: 'cadvisor'
+    cloud_servers: 'cloud'
+# dpc-nc-proxysql-02
+- targets:
+  - 10.199.5.148:9100      # node_exporter
+  labels:
+    object: 'node_exporter'
+    cloud_servers: 'cloud'
+- targets:
+  - 10.199.5.148:8080      # cAdvisor
+  labels:
+    object: 'cadvisor'
+    cloud_servers: 'cloud'
+
+
+# Nextcloud main servers
+# dpc-nextcloud
 - targets:
   - 10.199.5.14:9100      # node_exporter
   labels:
@@ -11,4 +97,16 @@
   labels:
     object: 'cadvisor'
     cloud_servers: 'cloud'
+# dpc-nextcloud-02
+- targets:
+  - 10.199.5.145:9100      # node_exporter
+  labels:
+    object: 'node_exporter'
+    cloud_servers: 'cloud'
+- targets:
+  - 10.199.5.145:8080      # cAdvisor
+  labels:
+    object: 'cadvisor'
+    cloud_servers: 'cloud'
+
 

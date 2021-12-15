@@ -13,11 +13,13 @@
 # NGINX servers
 - targets:
   - 10.199.0.37:9100      # node_exporter
+  - 10.199.0.38:9100
   labels: 
     object: 'node_exporter'
     adfs_servers: 'adfs_nginx'
 - targets:
   - 10.199.0.37:8080      # cAdvisor
+  - 10.199.0.38:8080
   labels: 
     object: 'cadvisor'
     adfs_servers: 'adfs_nginx'
