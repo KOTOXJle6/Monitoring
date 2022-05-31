@@ -1,0 +1,56 @@
+groups:
+- name: adfs_system.rules
+  rules:
+
+# alert for services down for more than 
+  - alert: ServiceDown
+    expr: win_services_state{job="ADFS Servers"} != 4
+    for: 30s
+    labels:
+      severity: warning
+
+
+# alert for instance down
+  - alert: InstanceDown
+    expr: up{job="ADFS Servers"} == 0
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has been down
+        for more than 1 minute.'
+      summary: Instance {{ $labels.instance }} down
+
+# alert for low free space
+  - alert: LowDiskSpace
+    expr: win_disk_Percent_Free_Space{exported_instance=~".*:.*",job="ADFS Servers"} < 20
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has low
+        disk space {{ $value }}%.'
+      summary: Instance {{ $labels.instance }} low free space {{ $value }}%
+
+# alert for extra low free space
+  - alert: NOFREE_DiskSpace
+    expr: win_disk_Percent_Free_Space{exported_instance=~".*:.*",job="ADFS Servers"} < 10
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} HAS NO
+        FREE DISK SPACE {{ $value }}%.'
+      summary: Instance {{ $labels.instance }} no free space {{ $value }}%
+
+
+
+
+
+
+
+
+
+
+
+

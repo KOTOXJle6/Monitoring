@@ -1,0 +1,152 @@
+# my global config
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+       - 10.77.110.219:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+    - "/etc/prometheus/alerts/mail.alerts.yml"
+    - "/etc/prometheus/alerts/mail_haproxy.alerts.yml"
+    - "/etc/prometheus/alerts/printers.alerts.yml"
+    - "/etc/prometheus/alerts/file_servers.alerts.yml"
+    - "/etc/prometheus/alerts/cloud.alerts.yml"
+    - "/etc/prometheus/alerts/web_sites.alerts.yml"
+    - "/etc/prometheus/alerts/squid_proxy.alerts.yml"
+    - "/etc/prometheus/alerts/adfs_nginx.alerts.yml"
+    - "/etc/prometheus/alerts/adfs.alerts.yml"
+    - "/etc/prometheus/alerts/1c.alerts.yml"
+    - "/etc/prometheus/alerts/scada.alerts.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+- job_name: 'prometheus'
+    # Careful, the scrape timeout has to be lower than the scrape interval.
+  scrape_interval: 6s
+  scrape_timeout: 5s
+  static_configs:
+  - targets: ['localhost:9090']
+
+- job_name: 'Nextcloud system'
+  scrape_interval: 6s
+  scrape_timeout: 5s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/cloud_system.yml
+    refresh_interval: 1m
+
+- job_name: 'Gitlab system'
+  scrape_interval: 6s
+  scrape_timeout: 5s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/gitlab_system.yml
+    refresh_interval: 1m
+
+- job_name: 'Squid proxy system'
+  scrape_interval: 6s
+  scrape_timeout: 5s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/squid_proxy_system.yml
+    refresh_interval: 1m
+
+
+- job_name: 'Mail System'
+  scrape_interval: 6s
+  scrape_timeout: 5s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/mail_system.yml
+    refresh_interval: 1m
+
+
+- job_name: 'File Servers'
+  scrape_interval: 60s
+  scrape_timeout: 40s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/file_servers.yml
+    refresh_interval: 1m
+
+- job_name: 'Print Servers'
+  scrape_interval: 60s
+  scrape_timeout: 40s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/print_servers.yml
+    refresh_interval: 1m
+
+
+- job_name: 'ADFS Servers'
+  scrape_interval: 60s
+  scrape_timeout: 40s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/adfs_system.yml
+    refresh_interval: 1m
+
+- job_name: '1C Servers'
+  scrape_interval: 60s
+  scrape_timeout: 40s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/1c_servers.yml
+    refresh_interval: 1m
+
+- job_name: 'SCADA Servers'
+  scrape_interval: 60s
+  scrape_timeout: 40s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/scada_servers.yml
+    refresh_interval: 10m
+
+
+- job_name: 'blackbox-http_2xx'
+  scrape_interval: 30s
+  metrics_path: /probe
+  params:
+    module: [http_2xx-general] 
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/blackbox_exporter.yml
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: 10.77.110.219:9115
+    - source_labels:
+      - module
+      target_label: __param_module
+
+- job_name: 'check squid_proxy availability'
+  scrape_interval: 55s
+  metrics_path: /probe
+  params:
+    module: [squid_proxy]
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/blackbox_exporter_squid_proxy.yml
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: 10.77.110.219:9115
+    - source_labels:
+      - module
+      target_label: __param_module
+

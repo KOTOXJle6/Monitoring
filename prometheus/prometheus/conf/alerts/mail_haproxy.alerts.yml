@@ -1,0 +1,60 @@
+groups:
+- name: haproxy.rules
+  rules:
+
+# alert for container down for more than 
+  - alert: ContainerDown
+    expr: absent(container_cpu_usage_seconds_total{image="haproxy",instance="10.77.110.190:8080",job="Mail System",name="haproxy"})
+    for: 30s
+    labels:
+      severity: warning
+
+
+# alert for instance down
+  - alert: InstanceDown
+    expr: up{job=~"Exchange|HAProxy-Exch"} == 0
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has been down
+        for more than 1 minute.'
+      summary: Instance {{ $labels.instance }} down
+
+# alerts for low disk space
+  - alert: Low free disk space
+    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",exch_servers="haproxy-exchange"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 20
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      description: "{{ $labels.instance }} has a low free disk space (current value: {{ $value }})"
+
+
+# alerts for critical disk space
+  - alert: Critical free disk space
+    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",exch_servers="haproxy-exchange"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 10
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      description: "{{ $labels.instance }} has a low free disk space (current value: {{ $value }})"
+
+
+# alert for web access down
+  - alert: Web access down
+    expr: probe_success{instance="http://10.77.110.190:9000/stats"} != 1
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      description: "THE SITE {{ $labels.instance }} IS DOWN"
+
+# alert for web access response code
+  - alert: bad web responce code
+    expr: probe_http_status_code{instance="http://10.77.110.190:9000/stats"} != 200
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      description: "THE SITE {{ $labels.instance }} IS NOT OK: response code {{ $value }}"

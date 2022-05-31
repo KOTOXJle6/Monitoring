@@ -1,0 +1,22 @@
+- targets: 
+  - dpc-vss-file.hq.mosgortrans.com:9182     #### 10.199.4.6:9182
+#  - dpc-cl-file-01.hq.mosgortrans.com:9182   #### 10.199.4.19:9182
+#  - dpc-cl-file-02.hq.mosgortrans.com:9182   #### 10.199.4.20:9182
+  - dpc-obd-osago.hq.mosgortrans.com:9182    #### 10.199.5.89:9182
+#  - dpc-srv-file-03.hq.mosgortrans.com:9182  #### 10.199.4.8:9182
+  - dpc-srv-file-04.hq.mosgortrans.com:9182  #### 10.199.4.11:9182
+  - gup-consplus.hq.mosgortrans.com:9182     #### 10.100.255.137:9182
+  - hq-srv-file-02.hq.mosgortrans.com:9182   #### 10.199.4.7:9182
+  - hq-srv-file-05.hq.mosgortrans.com:9182   #### 10.199.4.10:9182
+  - mgt-fileshare.hq.mosgortrans.com:9182    #### 10.199.4.22:9182
+  - scan.hq.mosgortrans.com:9182             #### 10.199.4.9:9182
+  - sit-srv-file-01.hq.mosgortrans.com:9182  #### 10.0.215.117:9182
+#  - dpc-srv-file-1c.hq.mosgortrans.com:9182  #### 10.199.4.24:9182
+  - mgt-srv-taxcom.hq.mosgortrans.com:9182   #### 10.199.9.15
+  - DPC-SRV-FILE-06.hq.mosgortrans.com:9182  #### 10.199.4.25
+  - dpc-srv-file-01.hq.mosgortrans.com:9182  #### 10.199.4.26
+  - dpc-srv-file-02.hq.mosgortrans.com:9182  #### 10.199.4.27
+
+## RDG
+# При последнем добавлении не было сетевой связи с хостом из подсети 10.77.110.
+#  - sit-rds-01.hq.mosgortrans.com:9182       #### 10.0.215.122

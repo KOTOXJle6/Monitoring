@@ -1,0 +1,32 @@
+groups:
+- name: adfs_nginx.rules
+  rules:
+
+# alert for container down for more than 
+  - alert: ContainerDown
+    expr: absent(container_cpu_usage_seconds_total{image="nginx:1.19",instance=~"10.199.0.3.*:8080",job="ADFS Servers",name="nginx"})
+    for: 30s
+    labels:
+      severity: warning
+
+
+# alerts for low disk space
+  - alert: Low free disk space
+    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",adfs_servers="adfs_nginx"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"})  < 20
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      description: "{{ $labels.instance }} has a low free disk space (current value: {{ $value }})"
+
+
+# alerts for critical disk space
+  - alert: Critical free disk space
+    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",adfs_servers="adfs_nginx"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"})  < 10
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      description: "{{ $labels.instance }} has a low free disk space (current value: {{ $value }})"
+
+

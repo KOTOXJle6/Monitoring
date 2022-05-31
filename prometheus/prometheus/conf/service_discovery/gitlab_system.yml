@@ -1,0 +1,18 @@
+- targets:
+
+# Nextcloud servers
+- targets:
+  - 10.199.5.123:9100      # node_exporter
+  labels:
+    object: 'node_exporter'
+    gitlab_servers: 'gitlab'
+- targets:
+  - 10.199.5.123:8080      # cAdvisor
+  labels:
+    object: 'cadvisor'
+    gitlab_servers: 'gitlab'
+
+
+
+
+

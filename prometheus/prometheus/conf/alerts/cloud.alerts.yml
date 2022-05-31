@@ -1,0 +1,67 @@
+groups:
+- name: cloud.rules
+  rules:
+
+# alert for container down for more than 
+  - alert: ContainerDown
+    expr: absent(container_cpu_usage_seconds_total{job="Nextcloud system",id=~".*docker.*"})
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      description: Container '{{ $labels.instance }} of job {{ $labels.job }} has been down
+        for more than 1 minute.'
+      summary: Instance {{ $labels.instance }} down
+
+
+# alert for instance down
+  - alert: InstanceDown
+    expr: up{job="Nextcloud server"} == 0
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has been down
+        for more than 1 minute.'
+      summary: Instance {{ $labels.instance }} down
+
+# alerts for low disk space
+  - alert: Low free disk space
+    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",job="Nextcloud system"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 20
+    for: 3m
+    labels:
+      severity: warning
+    annotations:
+      description: "{{ $labels.instance }} has a low free disk space (current value: {{ $value }})"
+
+
+# alerts for critical disk space
+  - alert: Critical free disk space
+    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",job="Nextcloud system"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 10
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      description: "{{ $labels.instance }} has a low free disk space (current value: {{ $value }})"
+
+
+# alert for web access down
+#  - alert: Web access down
+#    expr: probe_success{instance="https://cloud.mosgortrans.ru"} != 1
+#    for: 30s
+#    labels:
+#      severity: critical
+#    annotations:
+#      description: "THE SITE {{ $labels.instance }} IS DOWN"
+
+# alert for web access response code
+#  - alert: bad web responce code
+#    expr: probe_http_status_code{instance="https://cloud.mosgortrans.ru"} != 200
+#    for: 30s
+#    labels:
+#      severity: critical
+#    annotations:
+#      description: "THE SITE {{ $labels.instance }} IS NOT OK: response code {{ $value }}"
+
+
+

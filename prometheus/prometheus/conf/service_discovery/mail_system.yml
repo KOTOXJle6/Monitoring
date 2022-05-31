@@ -1,0 +1,41 @@
+- targets: 
+# Test exchange servers
+  - 10.77.110.223:9273      # exch19-01.mgt.local:9273
+  - 10.77.110.224:9273      # exch19-02.mgt.local:9273
+  labels:
+    exch_servers: 'test_exchange'
+
+# Prod exchange servers
+- targets:
+  - 10.199.0.25:9273      # exch01.hq.mosgortrans.com:9273
+  - 10.199.0.26:9273      # exch02.hq.mosgortrans.com:9273
+  - 10.199.0.27:9273      # exch03.hq.mosgortrans.com:9273
+  - 10.199.0.28:9273      # exch04.hq.mosgortrans.com:9273
+  labels:
+    exch_servers: 'prod_exchange'
+
+
+
+# HAProxy servers
+- targets:
+  - 10.77.110.190:9100      # node_exporter
+  labels:
+    object: 'node_exporter'
+    exch_servers: 'haproxy-exchange'
+- targets:
+  - 10.77.110.190:9323      # docker daemon
+  labels:
+    object: 'docker_daemon'
+    exch_servers: 'haproxy-exchange'
+- targets:
+  - 10.77.110.190:8080      # cAdvisor
+  labels:
+    object: 'cadvisor'
+    exch_servers: 'haproxy-exchange'
+- targets:
+  - 10.77.110.190:9101      # haproxy_exporter
+  labels:
+    object: 'haproxy_exporter'
+    exch_servers: 'haproxy-exchange'
+
+

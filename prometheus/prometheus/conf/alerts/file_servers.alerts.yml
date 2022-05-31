@@ -1,0 +1,27 @@
+groups:
+- name: storage_system.rules
+  rules:
+
+# alert for instance down
+  - alert: InstanceDown
+    expr: up{job="File Servers"} == 0
+    for: 3m
+    labels:
+      severity: warning
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has been down
+        for more than 1 minute.'
+      summary: Instance {{ $labels.instance }} down
+
+# alert for low free space
+  - alert: LowDiskSpace
+    expr: windows_logical_disk_free_bytes{job="File Servers",volume=~".*:.*",instance!~".*dpc-vss-file.*"} / windows_logical_disk_size_bytes{job="File Servers",volume=~".*:.*"} * 100 < 10
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has low
+        disk space {{ $value }}%.'
+      summary: Instance {{ $labels.instance }} low free space {{ $value }}%
+
+

@@ -1,0 +1,69 @@
+groups:
+- name: mail_system.rules
+  rules:
+
+# alert for services down for more than 
+  - alert: ServiceDown
+    expr: win_services_state{exch_servers=~".*exchange"} != 4
+    for: 30s
+    labels:
+      severity: warning
+
+
+# alert for instance down
+  - alert: InstanceDown
+    expr: up{job=~"Mail System"} == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has been down
+        for more than 1 minute.'
+      summary: Instance {{ $labels.instance }} down
+
+# alert for low free space
+  - alert: LowDiskSpace
+    expr: win_disk_Percent_Free_Space{exported_instance=~".*:.*",job="Mail System"} < 20
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has low
+        disk space {{ $value }}%.'
+      summary: Instance {{ $labels.instance }} low free space {{ $value }}%
+
+# alert for extra low free space
+  - alert: NOFREE_DiskSpace
+    expr: win_disk_Percent_Free_Space{exported_instance=~".*:.*",job="Mail System"} < 10
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} HAS NO
+        FREE DISK SPACE {{ $value }}%.'
+      summary: Instance {{ $labels.instance }} no free space {{ $value }}%
+
+
+# alert for high mail queue
+  - alert: HighMailQueue
+    expr: execMailQueue > 200
+    for: 1m
+    labels:
+      severity: warning
+
+# alert for extra high mail queue
+  - alert: EXTRA_HIGH_MAIL_QUEUE
+    expr: execMailQueue > 300
+    for: 2m
+    labels:
+      severity: critical
+
+
+
+
+
+
+
+
+
+
