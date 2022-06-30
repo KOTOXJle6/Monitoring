@@ -9,7 +9,7 @@ alerting:
   alertmanagers:
   - static_configs:
     - targets:
-       - 10.77.110.219:9093
+       - 10.199.5.77:9093
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
@@ -126,7 +126,7 @@ scrape_configs:
     - source_labels: [__param_target]
       target_label: instance
     - target_label: __address__
-      replacement: 10.77.110.219:9115
+      replacement: 10.199.5.77:9115
     - source_labels:
       - module
       target_label: __param_module
@@ -145,7 +145,7 @@ scrape_configs:
     - source_labels: [__param_target]
       target_label: instance
     - target_label: __address__
-      replacement: 10.77.110.219:9115
+      replacement: 10.199.5.77:9115
     - source_labels:
       - module
       target_label: __param_module
