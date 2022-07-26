@@ -13,7 +13,7 @@ services:
       - '--storage.tsdb.path=/etc/prometheus/data'
       - '--storage.tsdb.retention.size=40GB'
       - '--storage.tsdb.retention.time=120d'
-      - '--web.external-url=http://10.77.110.219:9090/'
+      - '--web.external-url=http://10.199.5.77:9090/'
     ports:
       - "9090:9090"
     networks:
@@ -45,7 +45,7 @@ services:
       - /opt/alertmanager/conf:/etc/alertmanager
     command:
       - "--config.file=/etc/alertmanager/alertmanager.yml"
-      - "--web.external-url=http://10.77.110.219:9090/"
+      - "--web.external-url=http://10.199.5.77:9090/"
     restart: always
     links:
       - prometheus

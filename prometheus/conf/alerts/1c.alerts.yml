@@ -15,11 +15,11 @@ groups:
 
 
 # alert for services down for more than 
-  - alert: ServiceDown
-    expr: win_services_state{service_name=~".*1C.*",host!~"hq-1c-term|SIT-1C-AS2"} != 4
-    for: 1m
-    labels:
-      severity: warning
+#  - alert: ServiceDown
+#    expr: win_services_state{service_name=~".*1C.*",host!~"hq-1c-term|SIT-1C-AS2"} != 4
+#    for: 1m
+#    labels:
+#      severity: warning
 
 
 

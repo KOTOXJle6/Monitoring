@@ -16,7 +16,7 @@ groups:
 
 # alert for instance down
   - alert: InstanceDown
-    expr: up{job="Nextcloud server"} == 0
+    expr: up{cloud_servers="cloud"} == 0
     for: 30s
     labels:
       severity: critical
@@ -27,7 +27,8 @@ groups:
 
 # alerts for low disk space
   - alert: Low free disk space
-    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",job="Nextcloud system"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 20
+#    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",job="Nextcloud system"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 20
+    expr: ((node_filesystem_avail_bytes{cloud_servers="cloud",mountpoint=~".*root.*"} * 100) /  node_filesystem_size_bytes{cloud_servers="cloud"}) < 20
     for: 3m
     labels:
       severity: warning
@@ -37,7 +38,8 @@ groups:
 
 # alerts for critical disk space
   - alert: Critical free disk space
-    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",job="Nextcloud system"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 10
+#    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",job="Nextcloud system"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 10
+    expr: ((node_filesystem_avail_bytes{cloud_servers="cloud",mountpoint=~".*root.*"} * 100) /  node_filesystem_size_bytes{cloud_servers="cloud"}) < 10
     for: 30s
     labels:
       severity: critical

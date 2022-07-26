@@ -1,18 +1,10 @@
 groups:
-- name: haproxy.rules
+- name: ksmg.rules
   rules:
-
-# alert for container down for more than 
-  - alert: ContainerDown
-    expr: absent(container_cpu_usage_seconds_total{image="haproxy",instance="10.77.110.190:8080",job="Mail System",name="haproxy"})
-    for: 30s
-    labels:
-      severity: warning
-
 
 # alert for instance down
   - alert: InstanceDown
-    expr: up{exch_servers="haproxy-exchange"} == 0
+    expr: up{exch_servers="ksmg-exchange"} == 0
     for: 30s
     labels:
       severity: critical
@@ -23,7 +15,7 @@ groups:
 
 # alerts for low disk space
   - alert: Low free disk space
-    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",exch_servers="haproxy-exchange"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 20
+    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",exch_servers="ksmg-exchange"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 20
     for: 30s
     labels:
       severity: warning
@@ -33,7 +25,7 @@ groups:
 
 # alerts for critical disk space
   - alert: Critical free disk space
-    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",exch_servers="haproxy-exchange"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 10
+    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",exch_servers="ksmg-exchange"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 10
     for: 30s
     labels:
       severity: critical
@@ -43,18 +35,37 @@ groups:
 
 # alert for web access down
   - alert: Web access down
-    expr: probe_success{instance="http://10.77.110.190:9000/stats"} != 1
+    expr: probe_success{instance="https://10.199.5.36"} != 1
     for: 30s
     labels:
       severity: warning
     annotations:
       description: "THE SITE {{ $labels.instance }} IS DOWN"
 
+ - alert: Web access down
+    expr: probe_success{instance="https://10.199.5.37"} != 1
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      description: "THE SITE {{ $labels.instance }} IS DOWN"
+
+
 # alert for web access response code
   - alert: bad web responce code
-    expr: probe_http_status_code{instance="http://10.77.110.190:9000/stats"} != 200
+    expr: probe_http_status_code{instance="https://10.199.5.36"} != 200
     for: 30s
     labels:
       severity: warning
     annotations:
       description: "THE SITE {{ $labels.instance }} IS NOT OK: response code {{ $value }}"
+
+
+  - alert: bad web responce code
+    expr: probe_http_status_code{instance="https://10.199.5.37"} != 200
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      description: "THE SITE {{ $labels.instance }} IS NOT OK: response code {{ $value }}"
+

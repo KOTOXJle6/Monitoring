@@ -13,8 +13,12 @@ services:
       - '--storage.tsdb.path=/etc/prometheus/data'
       - '--storage.tsdb.retention.size=40GB'
       - '--storage.tsdb.retention.time=120d'
+      - '--web.external-url=http://10.77.110.219:9090/'
     ports:
       - "9090:9090"
+    networks:
+      prom_net:
+        ipv4_address: 172.20.0.10
 
   grafana:
     image: grafana/grafana
@@ -28,6 +32,9 @@ services:
     restart: always
     links:
       - prometheus
+    networks:
+      prom_net:
+        ipv4_address: 172.20.0.20
 
   alertmanager:
     image: prom/alertmanager
@@ -36,7 +43,19 @@ services:
     container_name: alertmanager
     volumes:
       - /opt/alertmanager/conf:/etc/alertmanager
+    command:
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+      - "--web.external-url=http://10.77.110.219:9090/"
     restart: always
     links:
       - prometheus
+    networks:
+      prom_net:
+        ipv4_address:  172.20.0.30
 
+
+networks:
+  prom_net:
+    ipam:
+     config:
+       - subnet:  172.20.0.0/24

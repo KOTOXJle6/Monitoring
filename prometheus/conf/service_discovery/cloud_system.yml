@@ -1,5 +1,4 @@
 - targets:
-
 # Nextcloud nginx servers
 #dpc-nc-nginx-01
 - targets:
@@ -23,7 +22,6 @@
   labels:
     object: 'cadvisor'
     cloud_servers: 'cloud'
-
 
 # Nextcloud maridb servers
 #dpc-nc-mariadb-01
@@ -84,7 +82,6 @@
     object: 'cadvisor'
     cloud_servers: 'cloud'
 
-
 # Nextcloud main servers
 # dpc-nextcloud
 - targets:
@@ -108,5 +105,41 @@
   labels:
     object: 'cadvisor'
     cloud_servers: 'cloud'
+# dpc-nextcloud-03
+- targets:
+  - 10.199.5.146:9100      # node_exporter
+  labels:
+    object: 'node_exporter'
+    cloud_servers: 'cloud'
+- targets:
+  - 10.199.5.146:8080      # cAdvisor
+  labels:
+    object: 'cadvisor'
+    cloud_servers: 'cloud'
 
+# Nextcloud OnlyOffice servers
+# dpc-nc-onlyoffice-01
+- targets:
+  - 10.199.5.131:9100      # node_exporter
+  labels:
+    object: 'node_exporter'
+    cloud_servers: 'cloud'
+- targets:
+  - 10.199.5.131:8080      # cAdvisor
+  labels:
+    object: 'cadvisor'
+    cloud_servers: 'cloud'
+
+# Nextcloud Redis servers
+# dpc-nc-redis-01
+- targets:
+  - 10.199.5.110:9090      # node_exporter
+  labes:
+    object: 'node_exporter'
+    cloud_servers: 'cloud'
+- targets:
+  - 10.199.5.110:8080      # cAdvisor
+  labels:
+    object: 'cadvisor'
+    cloud_servers: 'cloud'
 

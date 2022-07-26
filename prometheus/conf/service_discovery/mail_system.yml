@@ -14,7 +14,14 @@
   labels:
     exch_servers: 'prod_exchange'
 
-
+# KSMG servers
+- targets:
+  - 10.199.5.29:9100       # ksmg01.mosgortrans.ru
+  - 10.199.5.30:9100       # mg3.hq.mosgortrans.ru
+  labels:
+    exch_servers: 'ksmg-exchange'
+    ksmg: 'prod_ksmg'
+    object: 'node_exporter'
 
 # HAProxy servers
 - targets:
