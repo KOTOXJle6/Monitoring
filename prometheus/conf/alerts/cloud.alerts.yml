@@ -28,7 +28,7 @@ groups:
 # alerts for low disk space
   - alert: Low free disk space
 #    expr: 100 - ((node_filesystem_avail_bytes{device="/dev/sda2",job="Nextcloud system"} * 100) /  node_filesystem_size_bytes{device="/dev/sda2"}) < 20
-    expr: ((node_filesystem_avail_bytes{cloud_servers="cloud",mountpoint=~".*root.*"} * 100) /  node_filesystem_size_bytes{cloud_servers="cloud"}) < 20
+    expr: ((node_filesystem_avail_bytes{cloud_servers="cloud",mountpoint=~".*root.*"} * 100) /  node_filesystem_size_bytes{cloud_servers="cloud"}) < 15
     for: 3m
     labels:
       severity: warning

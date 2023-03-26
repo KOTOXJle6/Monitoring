@@ -27,12 +27,12 @@ groups:
 
 # alerts for low disk space
   - alert: Low free disk space
-    expr: 100 - ((node_filesystem_avail_bytes{device=~".*vg.*|.*DPC.*",job="Squid proxy system"} * 100) / node_filesystem_size_bytes{device=~".*vg.*|.*DPC.*"}) < 20
+    expr: 100 - ((node_filesystem_avail_bytes{device=~".*vg.*|.*DPC.*",job="Squid proxy system"} * 100) / node_filesystem_size_bytes{device=~".*vg.*|.*DPC.*"}) > 80
     for: 3m
     labels:
       severity: warning
     annotations:
-      description: "{{ $labels.instance }} has a low free disk space (current value: {{ $value }})"
+      description: "{{ $labels.instance }} has a low free disk space (current used space: {{ $value }})"
 
 
 # alerts for critical disk space

@@ -1,0 +1,26 @@
+- targets:
+   - 10.199.5.141:9104
+  labels:
+    env: prod
+    job: mysql-exporter
+    object: 'mysqld_exporter'
+    cloud_servers: 'cloud'
+    hostname: 'dpc-nc-mariadb-01'
+
+- targets:
+   - 10.199.5.142:9104
+  labels:
+    env: prod
+    job: mysql-exporter
+    object: 'mysqld_exporter'
+    cloud_servers: 'cloud'
+    hostname: 'dpc-nc-mariadb-02'
+
+- targets:
+   - 10.199.5.143:9104
+  labels:
+    env: prod
+    job: mysql-exporter
+    object: 'mysqld_exporter'
+    cloud_servers: 'cloud'
+    hostname: 'dpc-nc-mariadb-03'

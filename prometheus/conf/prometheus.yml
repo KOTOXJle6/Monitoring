@@ -111,6 +111,14 @@ scrape_configs:
     - /etc/prometheus/service_discovery/scada_servers.yml
     refresh_interval: 10m
 
+- job_name: 'MySQL exporter'
+  scrape_interval: 60s
+  scrape_timeout: 40s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/mysqld_exporter.yml
+    refresh_interval: 2m
+
 
 - job_name: 'blackbox-http_2xx'
   scrape_interval: 30s
@@ -150,3 +158,29 @@ scrape_configs:
       - module
       target_label: __param_module
 
+- job_name: 'check services ports availability'
+  scrape_interval: 30s
+  metrics_path: /probe
+  params:
+    module: [tcp_connect]
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/blackbox_exporter_service_ports.yml
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: 10.199.5.77:9115
+    - source_labels:
+      - module
+      target_label: __param_module
+
+
+- job_name: ‘nginx exporter’
+  scrape_interval: 5s
+  file_sd_configs:
+  - files:
+    - /etc/prometheus/service_discovery/nginx_exporter.yml
+    refresh_interval: 1m

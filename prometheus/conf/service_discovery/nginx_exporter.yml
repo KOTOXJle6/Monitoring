@@ -1,0 +1,35 @@
+- targets:
+   - 10.199.5.138:9113
+  labels:
+    env: prod
+    job: nginx-exporter
+    object: 'nginx_exporter'
+    cloud_servers: 'cloud'
+    hostname: 'dpc-nc-nginx-01'
+
+- targets:
+   - 10.199.5.139:9113
+  labels:
+    env: prod
+    job: nginx-exporter
+    object: 'nginx_exporter'
+    cloud_servers: 'cloud'
+    hostname: 'dpc-nc-nginx-02'
+
+- targets:
+   - 10.199.5.14:9113
+  labels:
+    env: prod
+    job: nginx-exporter
+    object: 'nginx_exporter'
+    cloud_servers: 'cloud'
+    hostname: 'dpc-nextcloud'
+
+- targets:
+   - 10.199.5.145:9113
+  labels:
+    env: prod
+    job: nginx-exporter
+    object: 'nginx_exporter'
+    cloud_servers: 'cloud'
+    hostname: 'dpc-nextcloud-02'

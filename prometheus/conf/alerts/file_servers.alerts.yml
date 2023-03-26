@@ -15,7 +15,7 @@ groups:
 
 # alert for low free space
   - alert: LowDiskSpace
-    expr: windows_logical_disk_free_bytes{job="File Servers",volume=~".*:.*",instance!~".*dpc-vss-file.*"} / windows_logical_disk_size_bytes{job="File Servers",volume=~".*:.*"} * 100 < 10
+    expr: windows_logical_disk_free_bytes{job="File Servers",volume=~".*:.*",instance!~".*dpc-vss-file.*|.*dpc-srv-file-03.*"} / windows_logical_disk_size_bytes{job="File Servers",volume=~".*:.*"} * 100 < 10
     for: 5m
     labels:
       severity: warning

@@ -1,0 +1,58 @@
+- targets:
+  - 10.199.5.61:3128
+  - 10.199.5.63:3128
+  labels:
+    port: '3128'
+    servers_group: 'squid'
+#    hostname: 'dpc-nc-nginx-01'
+
+
+- targets:
+  - 10.199.5.138:443
+  - 10.199.5.139:443
+  - 10.199.5.140:443
+  labels:
+    port: '443'
+    service_group: 'cloud'
+    hosts_group: 'nginx'
+
+- targets:
+  - 10.199.5.141:3306
+  - 10.199.5.142:3306
+  - 10.199.5.143:3306
+  labels:
+    port: '3306'
+    service_group: 'cloud'
+    hosts_group: 'mariadb'
+
+- targets:
+  - 10.199.5.14:443
+  - 10.199.5.145:443
+  - 10.199.5.146:443
+  labels:
+    port: '443'
+    service_group: 'cloud'
+    hosts_group: 'nextcloud_php'
+
+- targets:
+  - 10.199.5.147:6033
+  - 10.199.5.148:6033
+  - 10.199.5.149:6033
+  labels:
+    port: '6033'
+    service_group: 'cloud'
+    hosts_group: 'proxysql'
+
+- targets:
+  - 10.199.5.110:6379
+  labels:
+    port: '6379'
+    service_group: 'cloud'
+    hosts_group: 'redis'
+
+- targets:
+  - 10.199.5.131:443
+  labels:
+    port: '443'
+    service_group: 'cloud'
+    hosts_group: 'onlyoffice'

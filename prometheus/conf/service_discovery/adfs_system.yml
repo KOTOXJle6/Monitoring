@@ -1,13 +1,12 @@
 - targets: 
 
-#  ADFS servers
+# ADFS servers
 - targets:
   - dpc-adfs-01.hq.mosgortrans.com:9273
   - dpc-adfs-02.hq.mosgortrans.com:9273
   - dpc-azure-01.hq.mosgortrans.com:9273
   labels:
     adfs_servers: 'adfs_windows'
-
 
 
 # NGINX servers
